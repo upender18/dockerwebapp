@@ -2,7 +2,7 @@ node {
 
     checkout scm
 
-    docker.withRegistry('https://hub.docker.com/', 'dockerHub') {
+    docker.withRegistry('https://Registry.hub.docker.com', 'dockerHub') {
 
         def customImage = docker.build("upender18/dockerwebapp")
 
