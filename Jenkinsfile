@@ -1,40 +1,71 @@
+pipeline { 
 
-pipeline{
+    environment { 
 
-	agent any
+        registry = "upender18/dockerwebapp" 
 
-	environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerHub')
-	}
+        registryCredential = 'dockerHub' 
 
-	stages {
+        dockerImage = '' 
 
-		stage('Build') {
+    }
 
-			steps {
-				sh 'docker build -t upender18/dockerwebapp:latest .'
-			}
-		}
+    agent any 
 
-		stage('Login') {
+    stages { 
 
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			}
-		}
+        stage('Cloning our Git') { 
 
-		stage('Push') {
+            steps { 
 
-			steps {
-				sh 'docker push upender18/dockerwebapp:latest'
-			}
-		}
-	}
+                git 'https://github.com/upender18/dockerwebapp.git' 
 
-	post {
-		always {
-			sh 'docker logout'
-		}
-	}
+            }
+
+        } 
+
+        stage('Building our image') { 
+
+            steps { 
+
+                script { 
+
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+
+                }
+
+            } 
+
+        }
+
+        stage('Deploy our image') { 
+
+            steps { 
+
+                script { 
+
+                    docker.withRegistry( '', registryCredential ) { 
+
+                        dockerImage.push() 
+
+                    }
+
+                } 
+
+            }
+
+        } 
+
+        stage('Cleaning up') { 
+
+            steps { 
+
+                sh "docker rmi $registry:$BUILD_NUMBER" 
+
+            }
+
+        } 
+
+    }
 
 }
