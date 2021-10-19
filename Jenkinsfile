@@ -16,12 +16,7 @@ pipeline{
 			}
 		}
 
-		stage('Login') {
-
-			steps {
-				sh 'docker login -u upender18 -p Ofeb@098498'
-			}
-		}
+		
 
 		stage('Push') {
 
