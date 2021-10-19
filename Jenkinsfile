@@ -3,9 +3,7 @@ pipeline{
 
 	agent any
 
-#	environment {
-#		DOCKERHUB_CREDENTIALS=credentials('Ofeb@098498')
-#	}
+
 
 	stages {
 
