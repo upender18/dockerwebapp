@@ -19,21 +19,21 @@ pipeline{
 		stage('Login') {
 
 			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+				sh 'sudo docker login -u upender18 -p Ofeb@098498'
 			}
 		}
 
 		stage('Push') {
 
 			steps {
-				sh 'docker push upender18/dockerwebapp:latest'
+				sh 'sudo docker push upender18/dockerwebapp:latest'
 			}
 		}
 	}
 
 	post {
 		always {
-			sh 'docker logout'
+			sh 'sudo docker logout'
 		}
 	}
 
