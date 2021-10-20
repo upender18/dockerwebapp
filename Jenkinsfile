@@ -19,14 +19,14 @@ pipeline{
 		stage('Login') {
 
 			steps {
-				sh 'sudo docker login -u upender18 -p Ofeb@098498'
+				sh 'docker login -u upender18 -p Ofeb@098498'
 			}
 		}
 
 		stage('Push') {
 
 			steps {
-				sh 'sudo docker push upender18/dockerwebapp:latest'
+				sh 'docker push upender18/dockerwebapp:latest'
 			}
 		}
 	}
